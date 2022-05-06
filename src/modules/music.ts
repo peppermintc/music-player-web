@@ -22,13 +22,17 @@ const SET_IS_LOADING = "SET_IS_LOADING";
 
 // Action Creators
 export const setMusicList = () => async (dispatch: Dispatch) => {
-  const response = await axiosGetMusicList();
-  const newMusicList: Music[] = response.items;
+  try {
+    const response = await axiosGetMusicList();
+    const newMusicList: Music[] = response.items;
 
-  dispatch({
-    type: SET_MUSIC_LIST,
-    payload: newMusicList,
-  });
+    dispatch({
+      type: SET_MUSIC_LIST,
+      payload: newMusicList,
+    });
+  } catch (error) {
+    alert("GET music list error");
+  }
 };
 
 export const setCurrentMusic =
@@ -38,22 +42,26 @@ export const setCurrentMusic =
       payload: true,
     });
 
-    const response = await axiosGetMusic(musicId);
-    const newMusicURL: string = response.url;
+    try {
+      const response = await axiosGetMusic(musicId);
+      const newMusicURL: string = response.url;
 
-    dispatch({
-      type: SET_CURRNT_MUSIC,
-      payload: {
-        id: musicId,
-        url: newMusicURL,
-        isPlaying: true,
-      },
-    });
-
-    dispatch({
-      type: SET_IS_LOADING,
-      payload: false,
-    });
+      dispatch({
+        type: SET_CURRNT_MUSIC,
+        payload: {
+          id: musicId,
+          url: newMusicURL,
+          isPlaying: true,
+        },
+      });
+    } catch (error) {
+      alert("GET Music URL error");
+    } finally {
+      dispatch({
+        type: SET_IS_LOADING,
+        payload: false,
+      });
+    }
   };
 
 export const setIsPlaying =
