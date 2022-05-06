@@ -53,22 +53,17 @@ const Date = styled.div`
 const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
   const { setCurrentMusic, setIsPlaying } = useActionCreators();
 
-  const currentMusicId = useSelector(
-    (state: RootState) => state.music.currentMusic?.id
-  );
-  const isPlaying = useSelector(
-    (state: RootState) => !!state.music.currentMusic?.isPlaying
-  );
+  const { currentMusic } = useSelector((state: RootState) => state.music);
 
-  const isCurrentMusic = id === currentMusicId;
+  const isCurrentMusic = id === currentMusic.id;
 
   const onButtonClick = () => {
-    if (id === currentMusicId) {
-      if (isPlaying === true) return setIsPlaying(false);
-      if (isPlaying === false) return setIsPlaying(true);
+    if (id === currentMusic.id) {
+      if (currentMusic.isPlaying === true) return setIsPlaying(false);
+      if (currentMusic.isPlaying === false) return setIsPlaying(true);
     }
 
-    if (id !== currentMusicId) {
+    if (id !== currentMusic.id) {
       setCurrentMusic(id);
     }
   };
@@ -76,7 +71,7 @@ const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
   return (
     <Container>
       <PlayPauseButton
-        isPlaying={isCurrentMusic && isPlaying}
+        isPlaying={isCurrentMusic && currentMusic.isPlaying}
         onButtonClick={onButtonClick}
       />
       <Title>{title}</Title>

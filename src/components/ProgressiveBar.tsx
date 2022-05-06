@@ -12,8 +12,8 @@ const Container = styled.div`
   height: 24px;
   border: 1px solid lightgray;
   border-radius: 8px;
-  cursor: pointer;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Inner = styled.div<{ percent: string }>`
