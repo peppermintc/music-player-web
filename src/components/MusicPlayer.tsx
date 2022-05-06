@@ -34,11 +34,11 @@ const Time = styled.h4`
 `;
 
 const MusicPlayer = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [duration, setDuration] = useState<string>("00:00");
   const [currentTime, setCurrentTime] = useState<string>("00:00");
   const [percent, setPercent] = useState<string>("0%");
-
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const musicList = useSelector((state: RootState) => state.music.musicList);
   const currentMusic = useSelector(
@@ -52,14 +52,16 @@ const MusicPlayer = () => {
   const { setIsPlaying } = useActionCreators();
 
   const updatePercent = (newPercent: string): void => {
-    if (audioRef.current === null) return;
+    const setAudioCurrentTime = () => {
+      if (audioRef.current === null) return;
+      const durationInSeconds = audioRef.current.duration;
+      const newCurrentTime =
+        (Number(newPercent.slice(0, -1)) * durationInSeconds) / 100;
+      audioRef.current.currentTime = newCurrentTime;
+    };
 
-    const durationInSeconds = audioRef.current.duration;
-    const newCurrentTime =
-      (Number(newPercent.slice(0, -1)) * durationInSeconds) / 100;
-
+    setAudioCurrentTime();
     setPercent(newPercent);
-    audioRef.current.currentTime = newCurrentTime;
   };
 
   const playAudio = () => {
@@ -72,14 +74,14 @@ const MusicPlayer = () => {
     audioRef.current.pause();
   };
 
-  const onAudioLoadedData = () => {
-    setIsPlaying(true);
-    playAudio();
-  };
-
   const onButtonClick = () => {
     if (currentMusic.isPlaying === true) return setIsPlaying(false);
     if (currentMusic.isPlaying === false) return setIsPlaying(true);
+  };
+
+  const onAudioLoadedData = () => {
+    setIsPlaying(true);
+    playAudio();
   };
 
   const onLoadedMetaData = () => {
