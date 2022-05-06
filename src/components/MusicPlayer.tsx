@@ -99,6 +99,8 @@ const MusicPlayer = () => {
     setPercent(`${(currentTimeInSeconds / durationInSeconds) * 100}%`);
   };
 
+  const onEnded = () => setIsPlaying(false);
+
   useEffect(() => {
     if (currentMusic.isPlaying === true) return playAudio();
     if (currentMusic.isPlaying === false) return pauseAudio();
@@ -120,6 +122,7 @@ const MusicPlayer = () => {
         onLoadedData={onAudioLoadedData}
         onLoadedMetadata={onLoadedMetaData}
         onTimeUpdate={onTimeUpdate}
+        onEnded={onEnded}
         controls
         src={currentMusic.url}
         style={{ display: "none" }}
