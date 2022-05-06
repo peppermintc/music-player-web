@@ -37,9 +37,9 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState<string>("00:00");
   const [currentTime, setCurrentTime] = useState<string>("00:00");
   const [percent, setPercent] = useState<string>("0%");
-  const { setIsPlaying } = useActionCreators();
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const musicList = useSelector((state: RootState) => state.music.musicList);
   const currentMusicId = useSelector(
     (state: RootState) => state.music.currentMusic?.id
@@ -53,6 +53,8 @@ const MusicPlayer = () => {
   const isPlaying = useSelector(
     (state: RootState) => !!state.music.currentMusic?.isPlaying
   );
+
+  const { setIsPlaying } = useActionCreators();
 
   const updatePercent = (newPercent: string): void => {
     if (audioRef.current === null) return;
