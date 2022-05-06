@@ -1,5 +1,5 @@
-import { createServer, Model } from 'miragejs';
-import mockData from './mockData';
+import { createServer, Model } from "miragejs";
+import mockData from "./mockData";
 
 export default function createMockServer() {
   createServer({
@@ -12,9 +12,9 @@ export default function createMockServer() {
     },
 
     routes() {
-      this.urlPrefix = 'http://localhost:8000';
-      this.namespace = 'musics';
-      this.get('', ({ db }) => {
+      this.urlPrefix = "http://localhost:8000";
+      this.namespace = "musics";
+      this.get("", ({ db }) => {
         return {
           total: db.musics.length,
           items: db.musics.map((data) => ({
@@ -27,14 +27,14 @@ export default function createMockServer() {
         };
       });
       this.get(
-        '/:musicId',
+        "/:musicId",
         ({ db }, request) => {
           const id = request.params.musicId;
           return {
             url: db.musics.findBy({ id }).url,
           };
         },
-        { timing: 2000 },
+        { timing: 2000 }
       );
     },
   });
