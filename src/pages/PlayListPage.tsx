@@ -21,13 +21,15 @@ const PlayListPage = () => {
   const currentMusic = useSelector(
     (state: RootState) => state.music.currentMusic
   );
+
   const isLoading = useSelector((state: RootState) => state.music.isLoading);
+  const hasCurrentMusic = currentMusic.id !== "";
 
   return (
     <Page>
       <Title>플레이리스트</Title>
       <PlayList />
-      {currentMusic && <MusicPlayer />}
+      {hasCurrentMusic && <MusicPlayer />}
       {isLoading && <LoadingScreen />}
     </Page>
   );

@@ -41,18 +41,13 @@ const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const musicList = useSelector((state: RootState) => state.music.musicList);
-  const currentMusicId = useSelector(
-    (state: RootState) => state.music.currentMusic?.id
+  const currentMusic = useSelector(
+    (state: RootState) => state.music.currentMusic
   );
-  const currentMusicURL = useSelector(
-    (state: RootState) => state.music.currentMusic?.url
-  );
+
   const currentMusicTitle = musicList.find(
-    (music: Music) => music.id === currentMusicId
+    (music: Music) => music.id === currentMusic.id
   )?.title;
-  const isPlaying = useSelector(
-    (state: RootState) => !!state.music.currentMusic?.isPlaying
-  );
 
   const { setIsPlaying } = useActionCreators();
 
@@ -83,8 +78,8 @@ const MusicPlayer = () => {
   };
 
   const onButtonClick = () => {
-    if (isPlaying === true) return setIsPlaying(false);
-    if (isPlaying === false) return setIsPlaying(true);
+    if (currentMusic.isPlaying === true) return setIsPlaying(false);
+    if (currentMusic.isPlaying === false) return setIsPlaying(true);
   };
 
   const onLoadedMetaData = () => {
@@ -103,13 +98,16 @@ const MusicPlayer = () => {
   };
 
   useEffect(() => {
-    if (isPlaying === true) return playAudio();
-    if (isPlaying === false) return pauseAudio();
-  }, [isPlaying]);
+    if (currentMusic.isPlaying === true) return playAudio();
+    if (currentMusic.isPlaying === false) return pauseAudio();
+  }, [currentMusic]);
 
   return (
     <Container>
-      <PlayPauseButton isPlaying={isPlaying} onButtonClick={onButtonClick} />
+      <PlayPauseButton
+        isPlaying={currentMusic.isPlaying}
+        onButtonClick={onButtonClick}
+      />
       <Title>{currentMusicTitle}</Title>
       <Time>{currentTime}</Time>
       <ProgressiveBar percent={percent} updatePercent={updatePercent} />
@@ -121,7 +119,7 @@ const MusicPlayer = () => {
         onLoadedMetadata={onLoadedMetaData}
         onTimeUpdate={onTimeUpdate}
         controls
-        src={currentMusicURL}
+        src={currentMusic.url}
         style={{ display: "none" }}
       />
     </Container>

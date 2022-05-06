@@ -11,7 +11,7 @@ interface Action {
 
 export interface MusicState {
   musicList: Music[];
-  currentMusic: CurrentMusic | null;
+  currentMusic: CurrentMusic;
   isLoading: boolean;
 }
 
@@ -70,7 +70,7 @@ export const setIsPlaying =
 // Initial State
 const initialState: MusicState = {
   musicList: [],
-  currentMusic: null,
+  currentMusic: { id: "", url: "", isPlaying: false },
   isLoading: false,
 };
 
