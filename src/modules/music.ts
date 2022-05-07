@@ -13,12 +13,14 @@ export interface MusicState {
   musicList: Music[];
   currentMusic: CurrentMusic;
   isLoading: boolean;
+  recentMusics: string[];
 }
 
 // Action Types
 const SET_MUSIC_LIST = "SET_MUSIC_LIST";
 const SET_CURRNT_MUSIC = "SET_CURRNT_MUSIC";
 const SET_IS_LOADING = "SET_IS_LOADING";
+const SET_RECENT_MUSICS = "SET_RECENT_MUSICS";
 
 // Action Creators
 export const setMusicList = () => async (dispatch: Dispatch) => {
@@ -36,7 +38,8 @@ export const setMusicList = () => async (dispatch: Dispatch) => {
 };
 
 export const setCurrentMusic =
-  (musicId: string) => async (dispatch: Dispatch) => {
+  (musicId: string) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch({
       type: SET_IS_LOADING,
       payload: true,
@@ -53,6 +56,27 @@ export const setCurrentMusic =
           url: newMusicURL,
           isPlaying: true,
         },
+      });
+
+      const { recentMusics } = getState().music;
+      let newRecentMusics: string[] = [...recentMusics];
+
+      if (recentMusics.includes(musicId)) {
+        const previousIndex = recentMusics.indexOf(musicId);
+        newRecentMusics.splice(previousIndex, 1);
+        newRecentMusics = [musicId, ...newRecentMusics];
+      } else {
+        if (recentMusics.length < 5) {
+          newRecentMusics = [musicId, ...newRecentMusics];
+        } else {
+          newRecentMusics.splice(4, 1);
+          newRecentMusics = [musicId, ...newRecentMusics];
+        }
+      }
+
+      dispatch({
+        type: SET_RECENT_MUSICS,
+        payload: newRecentMusics,
       });
     } catch (error) {
       alert("GET Music URL error");
@@ -80,6 +104,7 @@ const initialState: MusicState = {
   musicList: [],
   currentMusic: { id: "", url: "", isPlaying: false },
   isLoading: false,
+  recentMusics: [],
 };
 
 // Reducer
@@ -99,6 +124,11 @@ const musicReducer = (state: MusicState = initialState, action: Action) => {
       return {
         ...state,
         isLoading: action.payload,
+      };
+    case SET_RECENT_MUSICS:
+      return {
+        ...state,
+        recentMusics: action.payload,
       };
     default:
       return state;

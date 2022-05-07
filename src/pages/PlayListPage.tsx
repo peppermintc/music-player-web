@@ -3,6 +3,7 @@ import styled from "styled-components";
 import LoadingScreen from "../components/LoadingScreen";
 import MusicPlayer from "../components/MusicPlayer";
 import PlayList from "../components/PlayList";
+import RecentPlayList from "../components/RecentPlayList";
 import { RootState } from "../modules";
 
 const Page = styled.div`
@@ -13,8 +14,11 @@ const Page = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h2`
+const Header = styled.div`
   width: 70%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const PlayListPage = () => {
@@ -26,7 +30,10 @@ const PlayListPage = () => {
 
   return (
     <Page>
-      <Title>플레이리스트</Title>
+      <Header>
+        <h2>플레이리스트</h2>
+        <RecentPlayList />
+      </Header>
       <PlayList />
       {isCurrentMusicEmpty && <MusicPlayer />}
       {isLoading && <LoadingScreen />}
