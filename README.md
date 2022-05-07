@@ -116,3 +116,127 @@
 해당 문제에 대한 저작권은 주식회사 포자랩스(이하 '회사')에게 있으며 수령자는 오로지 채용을 위한 목적으로만 해당 문제를 활용할 수 있습니다.
 사유를 불문하고 해당 문제의 전부 또는 일부를 공개, 게재, 배포, 제3자에게 제공 하는 등의 일체의 누설 행위에 대해서는 저작권법에 의한 민.형사상의 책임을 질 수 있습니다.
 아울러 이러한 누설 금지 행위에는 문제의 문구를 변형하여 그 취지를 알 수 있도록 하는 경우 포함됩니다.
+
+---
+
+# 플레이리스트 페이지
+
+<img src="./preview/preview.png" alt="preview" />
+
+---
+
+## 실행 방법
+
+1. `yarn install` 명령어로 node_modules를 설치합니다.
+2. `yarn start` 명령어로 클라이언트 서버를 실행합니다.
+
+---
+
+## 사용 라이브러리
+
+- Redux: 전역적으로 상태 관리를 해주고 뷰에서 상태 로직을 분리하기 위해 사용하였습니다. 상태값이 많지 않기 때문에 Action Type, Action Creator, Reducer 등을 하나의 파일에 작성하는 Ducks 패턴이 유리하다고 생각하여 ducks 패턴을 사용하였습니다.
+- Redux Thunk: 한번에 여러 Action들이 순차적으로 일어나도록 하기위해 사용하였습니다.
+- Styled Components: 컴포넌트 레이아웃과 스타일을 함께 관리하기위해 사용하였습니다.
+- axios: HTTP 통신을 위해 사용하였습니다.
+
+---
+
+## 프로젝트 설명
+
+### Audio API
+
+- onLoadedMetadata: meta 데이터 로드 후 실행
+  - `duration` 설정
+- onCanPlay: 재생 가능 상태가 되면 실행
+  - `isPlaying` true로 변경 > 오디오 재생
+- onTimeUpdate: 시간 업데이트시 실행
+  - `currentTime`, `percent` 업데이트 > MusicPlayer UI 업데이트
+- onEnded: 재생 완료시 실행
+  - `isPlaying` false로 변경 > 오디오 일시정지
+
+### 컴포넌트
+
+- PlayListPage
+- PlayList
+- PlayListItem
+- MusicPlayer
+- PlayPauseButton
+- ProgressiveBar
+- LoadingScreen
+
+### 상태 값
+
+- music State
+  - `isLoading`
+  - `musicList`
+  - `currentMusic`
+    - `id`
+    - `url`
+    - `isPlaying`
+
+### 폴더 구성
+
+- `api`: axios HTTP 통신 함수 보관
+- `assets`: 이미지 자원 보관
+- `components`: UI 컴포넌트 보관
+- `hooks`: 커스텀 훅 보관
+- `interfaces`: TypeScript interface 보관
+- `mockServer`: mock 서버 파일 보관
+- `modules`: redux 스토어, 리듀서, 액션 함수 보관
+- `pages`: 페이지 컴포넌트 보관
+- `utils`: 유틸 함수 보관
+
+---
+
+### 프로젝트 트리 구조
+
+```
+├── README.md
+├── package-lock.json
+├── package.json
+├── preview
+│   ├── preview.png
+│   └── preview1.png
+├── public
+│   ├── favicon.ico
+│   └── index.html
+├── src
+│   ├── App.tsx
+│   ├── api
+│   │   └── index.ts
+│   ├── assets
+│   │   └── images
+│   │       ├── ic-small-fill-play-gray.png
+│   │       ├── ic-small-line-stop-gray.png
+│   │       └── loadingSpinner.gif
+│   ├── components
+│   │   ├── LoadingScreen.tsx
+│   │   ├── MusicPlayer.tsx
+│   │   ├── PlayList.tsx
+│   │   ├── PlayListItem.tsx
+│   │   ├── PlayPauseButton.tsx
+│   │   └── ProgressiveBar.tsx
+│   ├── hooks
+│   │   └── useActionCreators.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── interfaces
+│   │   └── index.ts
+│   ├── mockServer
+│   │   ├── createMockServer.ts
+│   │   └── mockData.ts
+│   ├── modules
+│   │   ├── index.ts
+│   │   └── music.ts
+│   ├── pages
+│   │   └── PlayListPage.tsx
+│   ├── react-app-env.d.ts
+│   └── utils
+│       ├── getFilteredPlaylist.ts
+│       └── stringFormat.ts
+├── tsconfig.json
+├── yarn.lock
+└── 프론트엔드 엔지니어 기술 과제 요구 사항.pdf
+```
+
+---
