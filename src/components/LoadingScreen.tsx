@@ -2,7 +2,7 @@ import styled from "styled-components";
 import LoadingSpinner from "../assets/images/loadingSpinner.gif";
 
 const Container = styled.div`
-  background-color: #00000030;
+  background-color: #eaeaea70;
   position: fixed;
   width: 100vw;
   height: 100vh;

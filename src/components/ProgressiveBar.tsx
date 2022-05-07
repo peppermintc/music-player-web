@@ -24,20 +24,18 @@ const Inner = styled.div<{ percent: string }>`
 `;
 
 const ProgressiveBar = ({ percent, updatePercent }: ProgressiveBarProps) => {
-  const barRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const onProgressiveBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (barRef.current === null) return;
-
-    const clickedLeft = e.pageX - barRef.current.offsetLeft;
-    const barWidth = barRef.current.offsetWidth;
-    const newPercent = `${(clickedLeft / barWidth) * 100}%`;
-
+    if (containerRef.current === null) return;
+    const clickedLeft = e.pageX - containerRef.current.offsetLeft;
+    const continaerWidth = containerRef.current.offsetWidth;
+    const newPercent = `${(clickedLeft / continaerWidth) * 100}%`;
     updatePercent(newPercent);
   };
 
   return (
-    <Container ref={barRef} onClick={onProgressiveBarClick}>
+    <Container ref={containerRef} onClick={onProgressiveBarClick}>
       <Inner percent={percent} />
     </Container>
   );

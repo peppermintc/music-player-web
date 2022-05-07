@@ -17,7 +17,7 @@ const Button = styled.button`
 `;
 
 const Image = styled.img`
-  width: 18px;
+  width: 14px;
 `;
 
 const PlayPauseButton = ({

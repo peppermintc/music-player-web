@@ -13,7 +13,7 @@ interface PlayListItemProps {
   date: string;
 }
 
-const Container = styled.div`
+const Container = styled.div<{ isSelected: boolean }>`
   border: 1px solid lightgray;
   border-radius: 8px;
   min-height: 70px;
@@ -22,6 +22,7 @@ const Container = styled.div`
   padding: 0 30px;
   gap: 60px;
   font-weight: 700;
+  background-color: ${({ isSelected }) => (isSelected ? "#eaeaea70" : "white")};
 `;
 
 const Title = styled.div`
@@ -37,6 +38,10 @@ const Moods = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media all and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Genre = styled.div`
@@ -44,10 +49,18 @@ const Genre = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media all and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Date = styled.div`
   width: 90px;
+
+  @media all and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
@@ -55,7 +68,7 @@ const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
 
   const { currentMusic } = useSelector((state: RootState) => state.music);
 
-  const isCurrentMusic = id === currentMusic.id;
+  const isSelected = id === currentMusic.id;
 
   const onButtonClick = () => {
     if (id === currentMusic.id) {
@@ -65,13 +78,14 @@ const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
 
     if (id !== currentMusic.id) {
       setCurrentMusic(id);
+      setIsPlaying(false);
     }
   };
 
   return (
-    <Container>
+    <Container isSelected={isSelected}>
       <PlayPauseButton
-        isPlaying={isCurrentMusic && currentMusic.isPlaying}
+        isPlaying={isSelected && currentMusic.isPlaying}
         onButtonClick={onButtonClick}
       />
       <Title>{title}</Title>

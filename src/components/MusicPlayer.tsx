@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import useActionCreators from "../hooks/useActionCreators";
 import { Music } from "../interfaces";
 import { RootState } from "../modules";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import ProgressiveBar from "./ProgressiveBar";
 import PlayPauseButton from "./PlayPauseButton";
 import formatString from "../utils/stringFormat";
-import ProgressiveBar from "./ProgressiveBar";
+import useActionCreators from "../hooks/useActionCreators";
 
 const Container = styled.div`
   position: fixed;
@@ -17,14 +17,30 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media all and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
-const Title = styled.h3`
-  width: 180px;
+const Section = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media all and (max-width: 768px) {
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const Title = styled.h4`
+  width: 200px;
   margin-left: 50px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0 0 0 50px;
 `;
 
 const Time = styled.h4`
@@ -79,15 +95,14 @@ const MusicPlayer = () => {
     if (currentMusic.isPlaying === false) return setIsPlaying(true);
   };
 
-  const onAudioLoadedData = () => {
-    setIsPlaying(true);
-    playAudio();
-  };
-
   const onLoadedMetaData = () => {
     if (audioRef.current === null) return;
     setDuration(formatString.time(audioRef.current.duration));
   };
+
+  const onCanPlay = () => setIsPlaying(true);
+
+  const onEnded = () => setIsPlaying(false);
 
   const onTimeUpdate = () => {
     if (audioRef.current === null) return;
@@ -99,8 +114,6 @@ const MusicPlayer = () => {
     setPercent(`${(currentTimeInSeconds / durationInSeconds) * 100}%`);
   };
 
-  const onEnded = () => setIsPlaying(false);
-
   useEffect(() => {
     if (currentMusic.isPlaying === true) return playAudio();
     if (currentMusic.isPlaying === false) return pauseAudio();
@@ -108,24 +121,27 @@ const MusicPlayer = () => {
 
   return (
     <Container>
-      <PlayPauseButton
-        isPlaying={currentMusic.isPlaying}
-        onButtonClick={onButtonClick}
-      />
-      <Title>{currentMusicTitle}</Title>
-      <Time>{currentTime}</Time>
-      <ProgressiveBar percent={percent} updatePercent={updatePercent} />
-      <Time>{duration}</Time>
+      <Section>
+        <PlayPauseButton
+          isPlaying={currentMusic.isPlaying}
+          onButtonClick={onButtonClick}
+        />
+        <Title>{currentMusicTitle}</Title>
+      </Section>
+      <Section>
+        <Time>{currentTime}</Time>
+        <ProgressiveBar percent={percent} updatePercent={updatePercent} />
+        <Time>{duration}</Time>
+      </Section>
 
       <audio
         ref={audioRef}
-        onLoadedData={onAudioLoadedData}
-        onLoadedMetadata={onLoadedMetaData}
-        onTimeUpdate={onTimeUpdate}
-        onEnded={onEnded}
-        controls
         src={currentMusic.url}
         style={{ display: "none" }}
+        onLoadedMetadata={onLoadedMetaData}
+        onCanPlay={onCanPlay}
+        onTimeUpdate={onTimeUpdate}
+        onEnded={onEnded}
       />
     </Container>
   );
