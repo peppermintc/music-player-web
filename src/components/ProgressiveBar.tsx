@@ -14,6 +14,10 @@ const Container = styled.div`
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
+
+  @media all and (max-width: 768px) {
+    width: 300px;
+  }
 `;
 
 const Inner = styled.div<{ percent: string }>`

@@ -47,6 +47,10 @@ const Time = styled.h4`
   width: 100px;
   display: flex;
   justify-content: center;
+
+  @media all and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const MusicPlayer = () => {
