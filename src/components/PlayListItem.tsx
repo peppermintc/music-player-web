@@ -64,9 +64,9 @@ const Date = styled.div`
 `;
 
 const PlayListItem = ({ id, title, moods, genre, date }: PlayListItemProps) => {
-  const { setCurrentMusic, setIsPlaying } = useActionCreators();
-
   const { currentMusic } = useSelector((state: RootState) => state.music);
+
+  const { setCurrentMusic, setIsPlaying } = useActionCreators();
 
   const isSelected = id === currentMusic.id;
 

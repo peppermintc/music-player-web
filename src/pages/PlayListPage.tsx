@@ -18,18 +18,17 @@ const Title = styled.h2`
 `;
 
 const PlayListPage = () => {
-  const currentMusic = useSelector(
-    (state: RootState) => state.music.currentMusic
+  const { currentMusic, isLoading } = useSelector(
+    (state: RootState) => state.music
   );
 
-  const isLoading = useSelector((state: RootState) => state.music.isLoading);
-  const hasCurrentMusic = currentMusic.id !== "";
+  const isCurrentMusicEmpty = currentMusic.id !== "";
 
   return (
     <Page>
       <Title>플레이리스트</Title>
       <PlayList />
-      {hasCurrentMusic && <MusicPlayer />}
+      {isCurrentMusicEmpty && <MusicPlayer />}
       {isLoading && <LoadingScreen />}
     </Page>
   );

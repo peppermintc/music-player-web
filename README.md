@@ -123,8 +123,6 @@
 
 <img src="./preview/preview.png" alt="preview" />
 
----
-
 ## 실행 방법
 
 1. `yarn install` 명령어로 node_modules를 설치합니다.
@@ -139,11 +137,7 @@
 - Styled Components: 컴포넌트 레이아웃과 스타일을 함께 관리하기위해 사용하였습니다.
 - axios: HTTP 통신을 위해 사용하였습니다.
 
----
-
-## 프로젝트 설명
-
-### Audio API
+## Audio API
 
 - onLoadedMetadata: meta 데이터 로드 후 실행
   - `duration` 설정
@@ -154,7 +148,7 @@
 - onEnded: 재생 완료시 실행
   - `isPlaying` false로 변경 > 오디오 일시정지
 
-### 컴포넌트
+## 컴포넌트 구성
 
 - PlayListPage
 - PlayList
@@ -164,7 +158,7 @@
 - ProgressiveBar
 - LoadingScreen
 
-### 상태 값
+## music 스토어 상태 값 구성
 
 - music State
   - `isLoading`
@@ -174,7 +168,7 @@
     - `url`
     - `isPlaying`
 
-### 폴더 구성
+## 폴더 구성
 
 - `api`: axios HTTP 통신 함수 보관
 - `assets`: 이미지 자원 보관
@@ -186,9 +180,7 @@
 - `pages`: 페이지 컴포넌트 보관
 - `utils`: 유틸 함수 보관
 
----
-
-### 프로젝트 트리 구조
+## 프로젝트 트리 구조
 
 ```
 ├── README.md
